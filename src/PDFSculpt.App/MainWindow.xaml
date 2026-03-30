@@ -45,18 +45,24 @@
 
                                 <Grid>
 
-                                    <!-- PDF Image -->
-                                    <Image Source="{Binding ImageData, Converter={StaticResource ByteArrayToImageConverter}}"
+                                    <Grid>
+                                        <!-- PDF Image -->
+                                        <Image x:Name="PdfImage"
+                                           Source="{Binding ImageData, Converter={StaticResource ByteArrayToImageConverter}}"
                                            Stretch="Uniform"
                                            MaxWidth="900"/>
 
-                                    <!-- Overlay Canvas -->
-                                    <Canvas Background="Transparent"
+                                        <!-- Overlay Canvas -->
+                                        <Canvas Background="Transparent"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
                                             Tag="{Binding}"
+                                            Loaded="Canvas_Loaded"
                                             MouseDown="Canvas_MouseDown"
                                             MouseMove="Canvas_MouseMove"
                                             MouseUp="Canvas_MouseUp"/>
-
+                                        
+                                    </Grid>
                                 </Grid>
 
                             </Border>

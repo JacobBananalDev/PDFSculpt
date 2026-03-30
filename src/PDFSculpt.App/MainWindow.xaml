@@ -10,7 +10,8 @@
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
             <TextBlock Text="{Binding Title}" FontSize="24" HorizontalAlignment="Center"/>
-            <Button Content="Click Me" Command="{Binding TestCommand}" Width="120"/> 
+            <Button Content="Open PDF" Command="{Binding OpenPdfCommand}" Width="150"/>
+            <TextBlock Text="{Binding SelectedFile}" FontSize="12" TextWrapping="Wrap" Width="300"/>
         </StackPanel>
     </Grid>
 </Window>

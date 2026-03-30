@@ -1,11 +1,11 @@
-﻿namespace PDFSculpt.Core.Services
+﻿using PDFSculpt.Core.Models;
+
+namespace PDFSculpt.Core.Services
 {
     public interface IPdfService
     {
-        Task OpenDocumentAsync(string filePath);
+        Task<PdfDocument> LoadDocumentAsync(string filePath);
 
-        int GetPageCount();
-
-        Task<byte[]> RenderPageAsync(int pageNumber, double scale = 1.0);
+        Task<byte[]> RenderPageAsync(PdfPage page, double scale = 1.0);
     }
 }

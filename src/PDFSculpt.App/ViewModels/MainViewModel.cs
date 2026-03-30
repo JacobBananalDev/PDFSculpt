@@ -1,7 +1,9 @@
 ﻿using PDFSculpt.App.Commands;
+using PDFSculpt.Core.Annotations;
 using PDFSculpt.Core.Models;
 using PDFSculpt.Core.Services;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace PDFSculpt.App.ViewModels
 {
@@ -58,6 +60,13 @@ namespace PDFSculpt.App.ViewModels
         {
             get => _zoomScale;
             set => SetProperty(ref _zoomScale, value);
+        }
+
+        private AnnotationTool _selectedTool = AnnotationTool.None;
+        public AnnotationTool SelectedTool
+        {
+            get => _selectedTool;
+            set => SetProperty(ref _selectedTool, value);
         }
 
         private async Task ReloadPagesWithDelayAsync(CancellationToken token)
@@ -122,6 +131,14 @@ namespace PDFSculpt.App.ViewModels
 
                 await ReloadPagesAsync();
             }
+        }
+
+        private RelayCommand? _selectDrawToolCommand;
+        public RelayCommand SelectDrawToolCommand => _selectDrawToolCommand ??= new RelayCommand(ExecuteSelectDrawToolCommand);
+
+        private void ExecuteSelectDrawToolCommand()
+        {
+            SelectedTool = AnnotationTool.Draw;
         }
     }
 }

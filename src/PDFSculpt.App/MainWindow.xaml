@@ -38,21 +38,26 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="#DDD"
-                            BorderThickness="1"
-                            Margin="10"
-                            Padding="10"
-                            HorizontalAlignment="Center">
+                                    BorderThickness="1"
+                                    Margin="10"
+                                    Padding="10"
+                                    HorizontalAlignment="Center">
 
-                                <StackPanel>
+                                <Grid>
+
+                                    <!-- PDF Image -->
                                     <Image Source="{Binding ImageData, Converter={StaticResource ByteArrayToImageConverter}}"
-                                   Stretch="Uniform"
-                                   MaxWidth="900"/>
+                                           Stretch="Uniform"
+                                           MaxWidth="900"/>
 
-                                    <TextBlock Text="{Binding DisplayPageNumber}"
-                                       HorizontalAlignment="Center"
-                                       Margin="0,5,0,0"
-                                       FontSize="10"/>
-                                </StackPanel>
+                                    <!-- Overlay Canvas -->
+                                    <Canvas Background="Transparent"
+                                            Tag="{Binding}"
+                                            MouseDown="Canvas_MouseDown"
+                                            MouseMove="Canvas_MouseMove"
+                                            MouseUp="Canvas_MouseUp"/>
+
+                                </Grid>
 
                             </Border>
                         </DataTemplate>
@@ -100,6 +105,15 @@
                 <TextBlock Text="{Binding Zoom, StringFormat={}{0:F1}x}"
                        HorizontalAlignment="Center"
                        Margin="0,0,0,20"/>
+
+                <TextBlock Text="Tools"
+                     FontWeight="SemiBold"
+                     Margin="0,20,0,10"/>
+
+                <Button Content="Draw"
+                    Command="{Binding SelectDrawToolCommand}"
+                    Margin="0,0,0,10"/>
+
 
             </StackPanel>
 

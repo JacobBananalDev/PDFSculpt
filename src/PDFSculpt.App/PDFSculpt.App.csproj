@@ -8,4 +8,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PDFSculpt.Core\PDFSculpt.Core.csproj" />
+    <ProjectReference Include="..\PDFSculpt.Infrastructure\PDFSculpt.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

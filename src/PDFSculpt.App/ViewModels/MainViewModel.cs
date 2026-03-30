@@ -1,10 +1,17 @@
 ﻿using PDFSculpt.App.Commands;
-using System.Windows.Data;
+using PDFSculpt.Core.Services;
 
 namespace PDFSculpt.App.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        private readonly IPdfService _pdfService;
+
+        public MainViewModel(IPdfService pdfService)
+        {
+            _pdfService = pdfService;
+        }
+
         private string _title = "PDFSculpt";
         public string Title
         {

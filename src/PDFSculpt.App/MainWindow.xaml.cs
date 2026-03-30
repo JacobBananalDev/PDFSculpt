@@ -1,13 +1,6 @@
-﻿using System.Text;
+﻿using PDFSculpt.App.ViewModels;
+using PDFSculpt.Infrastructure.Services;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PDFSculpt.App
 {
@@ -19,6 +12,9 @@ namespace PDFSculpt.App
         public MainWindow()
         {
             InitializeComponent();
+
+            var pdfService = new PdfService();
+            DataContext = new MainViewModel(pdfService);
         }
     }
 }

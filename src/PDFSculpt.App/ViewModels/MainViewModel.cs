@@ -42,6 +42,9 @@ namespace PDFSculpt.App.ViewModels
             {
                 if (SetProperty(ref _zoom, value))
                 {
+                    // instant visual zoom
+                    ZoomScale = value;
+
                     _zoomCts?.Cancel();
                     _zoomCts = new CancellationTokenSource();
 
@@ -50,11 +53,18 @@ namespace PDFSculpt.App.ViewModels
             }
         }
 
+        private double _zoomScale = 1.0;
+        public double ZoomScale
+        {
+            get => _zoomScale;
+            set => SetProperty(ref _zoomScale, value);
+        }
+
         private async Task ReloadPagesWithDelayAsync(CancellationToken token)
         {
             try
             {
-                await Task.Delay(300, token); // wait until user stops dragging
+                await Task.Delay(400, token); // wait until user stops dragging
 
                 await ReloadPagesAsync();
             }

@@ -61,6 +61,10 @@ namespace PDFSculpt.App.ViewModels
 
                 foreach (var page in document.Pages)
                 {
+                    var imageBytes = await _pdfService.RenderPageAsync(page, scale: 1.0);
+
+                    page.ImageData = imageBytes;
+
                     Pages.Add(page);
                 }
             }

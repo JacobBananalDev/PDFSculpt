@@ -1,5 +1,6 @@
 ﻿using PDFiumSharp;
 using PDFSculpt.Core.Services;
+using System.IO;
 
 namespace PDFSculpt.Infrastructure.Services
 {
@@ -65,9 +66,10 @@ namespace PDFSculpt.Infrastructure.Services
             // Render page into bitmap
             pdfPage.Render(bitmap);
 
-            // Convert to byte[]
+            using var bmpStream = bitmap.AsBmpStream();
+
             using var ms = new MemoryStream();
-            bitmap.Save(ms);
+            bmpStream.CopyTo(ms);
 
             return Task.FromResult(ms.ToArray());
         }

@@ -16,6 +16,8 @@ namespace PDFSculpt.App.ViewModels
 
         public ObservableCollection<PdfPage> Pages { get; } = new();
 
+        private Core.Models.PdfDocument? _currentDocument;
+
         private string _title = "PDFSculpt";
         public string Title
         {
@@ -28,6 +30,55 @@ namespace PDFSculpt.App.ViewModels
         {
             get => _SelectedFile;
             set => SetProperty(ref _SelectedFile, value);
+        }
+
+        private CancellationTokenSource? _zoomCts;
+
+        private double _zoom = 1.0;
+        public double Zoom
+        {
+            get => _zoom;
+            set
+            {
+                if (SetProperty(ref _zoom, value))
+                {
+                    _zoomCts?.Cancel();
+                    _zoomCts = new CancellationTokenSource();
+
+                    _ = ReloadPagesWithDelayAsync(_zoomCts.Token);
+                }
+            }
+        }
+
+        private async Task ReloadPagesWithDelayAsync(CancellationToken token)
+        {
+            try
+            {
+                await Task.Delay(300, token); // wait until user stops dragging
+
+                await ReloadPagesAsync();
+            }
+            catch (TaskCanceledException)
+            {
+                // ignore
+            }
+        }
+
+        private async Task ReloadPagesAsync()
+        {
+            if (_currentDocument == null)
+                return;
+
+            Pages.Clear();
+
+            foreach (var page in _currentDocument.Pages)
+            {
+                var imageBytes = await _pdfService.RenderPageAsync(page, Zoom);
+
+                page.ImageData = imageBytes;
+
+                Pages.Add(page);
+            }
         }
 
         private RelayCommand? _TestCommand;
@@ -57,16 +108,9 @@ namespace PDFSculpt.App.ViewModels
 
                 Title = $"Loaded {document.PageCount} pages";
 
-                Pages.Clear();
+                _currentDocument = document;
 
-                foreach (var page in document.Pages)
-                {
-                    var imageBytes = await _pdfService.RenderPageAsync(page, scale: 1.0);
-
-                    page.ImageData = imageBytes;
-
-                    Pages.Add(page);
-                }
+                await ReloadPagesAsync();
             }
         }
     }

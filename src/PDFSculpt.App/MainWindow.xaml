@@ -13,33 +13,13 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
 
-        <!-- Header -->
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <Button Content="Open PDF"
-                Command="{Binding OpenPdfCommand}"
-                Width="120"
-                Margin="0,0,10,0"/>
-
-            <TextBlock Text="{Binding Title}"
-                   VerticalAlignment="Center"
-                   FontSize="16"/>
-        </StackPanel>
-
-        <!-- File Path -->
-        <TextBlock Grid.Row="1"
-               Text="{Binding SelectedFile}"
-               Margin="10,0,10,10"
-               FontSize="12"
-               TextWrapping="Wrap"/>
-
-        <!-- PDF Viewer -->
-        <ScrollViewer Grid.Row="2"
+        <!-- LEFT: PDF Viewer -->
+        <ScrollViewer Grid.Column="0"
                   VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled">
 
@@ -60,8 +40,8 @@
 
                             <StackPanel>
                                 <Image Source="{Binding ImageData, Converter={StaticResource ByteArrayToImageConverter}}"
-                                   Width="500"
-                                   Stretch="Uniform"/>
+                                   Stretch="Uniform"
+                                   MaxWidth="900"/>
 
                                 <TextBlock Text="{Binding DisplayPageNumber}"
                                        HorizontalAlignment="Center"
@@ -75,5 +55,46 @@
             </ItemsControl>
 
         </ScrollViewer>
+
+        <!-- RIGHT: TOOLBAR -->
+        <Border Grid.Column="1"
+            Background="#F5F5F5"
+            BorderBrush="#DDD"
+            BorderThickness="1,0,0,0"
+            Padding="10">
+
+            <StackPanel>
+
+                <TextBlock Text="PDFSculpt"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"/>
+
+                <Button Content="Open PDF"
+                    Command="{Binding OpenPdfCommand}"
+                    Margin="0,0,0,10"/>
+
+                <TextBlock Text="{Binding Title}"
+                       FontSize="12"
+                       Margin="0,0,0,20"
+                       TextWrapping="Wrap"/>
+
+                <!-- Zoom -->
+                <TextBlock Text="Zoom" FontWeight="SemiBold"/>
+
+                <Slider Minimum="0.5"
+                    Maximum="2.0"
+                    Value="{Binding Zoom, Mode=TwoWay}"
+                    TickFrequency="0.1"
+                    IsSnapToTickEnabled="True"
+                    Margin="0,5"/>
+
+                <TextBlock Text="{Binding Zoom, StringFormat={}{0:F1}x}"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+
+            </StackPanel>
+
+        </Border>
     </Grid>
 </Window>

@@ -1,5 +1,7 @@
 ﻿using PDFSculpt.App.Commands;
+using PDFSculpt.Core.Models;
 using PDFSculpt.Core.Services;
+using System.Collections.ObjectModel;
 
 namespace PDFSculpt.App.ViewModels
 {
@@ -11,6 +13,8 @@ namespace PDFSculpt.App.ViewModels
         {
             _pdfService = pdfService;
         }
+
+        public ObservableCollection<PdfPage> Pages { get; } = new();
 
         private string _title = "PDFSculpt";
         public string Title
@@ -52,6 +56,13 @@ namespace PDFSculpt.App.ViewModels
                 var document = await _pdfService.LoadDocumentAsync(dialog.FileName);
 
                 Title = $"Loaded {document.PageCount} pages";
+
+                Pages.Clear();
+
+                foreach (var page in document.Pages)
+                {
+                    Pages.Add(page);
+                }
             }
         }
     }

@@ -7,11 +7,36 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <TextBlock Text="{Binding Title}" FontSize="24" HorizontalAlignment="Center"/>
-            <Button Content="Open PDF" Command="{Binding OpenPdfCommand}" Width="150"/>
-            <TextBlock Text="{Binding SelectedFile}" FontSize="12" TextWrapping="Wrap" Width="300"/>
-        </StackPanel>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Text="{Binding Title}" FontSize="24" />
+
+        <!-- Open Button -->
+        <Button Grid.Row="1"
+            Content="Open PDF"
+            Command="{Binding OpenPdfCommand}"
+            Width="150"
+            Margin="0,10,0,10"/>
+
+        <!-- Pages List -->
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Pages}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="{Binding PageNumber}" FontWeight="Bold"/>
+                            <TextBlock Text="(Preview coming soon)" FontSize="10"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
     </Grid>
 </Window>

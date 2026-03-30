@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="PDFium.WindowsV2" Version="1.1.4" />
+    <PackageReference Include="PDFiumSharpV2" Version="1.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PDFSculpt.Core\PDFSculpt.Core.csproj" />
   </ItemGroup>
 

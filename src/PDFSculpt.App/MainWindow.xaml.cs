@@ -2,7 +2,6 @@
 using PDFSculpt.Core.Annotations;
 using PDFSculpt.Core.Models;
 using PDFSculpt.Infrastructure.Services;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -57,12 +56,16 @@ namespace PDFSculpt.App
             };
 
             var point = e.GetPosition(canvas);
+
+            double normalizedX = point.X / canvas.ActualWidth;
+            double normalizedY = point.Y / canvas.ActualHeight;
+
             _currentLine.Points.Add(point);
 
             _currentStroke?.Points.Add(new AnnotationPoint
             {
-                X = point.X,
-                Y = point.Y
+                X = normalizedX,
+                Y = normalizedY
             });
 
             canvas?.Children.Add(_currentLine);
@@ -76,14 +79,16 @@ namespace PDFSculpt.App
             var canvas = sender as Canvas;
             var point = e.GetPosition(canvas);
 
-            _currentLine.Points.Add(point);
 
-           
+            double normalizedX = point.X / canvas.ActualWidth;
+            double normalizedY = point.Y / canvas.ActualHeight;
+
+            _currentLine.Points.Add(point);
 
             _currentStroke.Points.Add(new AnnotationPoint
             {
-                X = point.X,
-                Y = point.Y
+                X = normalizedX,
+                Y = normalizedY
             });
         }
 
@@ -120,7 +125,10 @@ namespace PDFSculpt.App
 
                 foreach (var p in stroke.Points)
                 {
-                    polyline.Points.Add(new System.Windows.Point(p.X, p.Y));
+                    double x = p.X * canvas.ActualWidth;
+                    double y = p.Y * canvas.ActualHeight;
+
+                    polyline.Points.Add(new System.Windows.Point(x, y));
                 }
 
                 canvas.Children.Add(polyline);
